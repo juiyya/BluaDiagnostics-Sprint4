@@ -1,0 +1,43 @@
+[
+  {
+    "type": "function",
+    "function": {
+      "name": "get_patient_history",
+      "description": "Busca o histórico médico do paciente no banco de dados da Care Plus, incluindo condições crônicas, alergias e medicações em uso contínuo.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "patient_id": {
+            "type": "string",
+            "description": "O identificador único do paciente (ex: CPF ou carteirinha Care Plus)."
+          }
+        },
+        "required": ["patient_id"]
+      }
+    }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "check_drug_interaction",
+      "description": "Verifica possíveis interações medicamentosas entre uma nova medicação proposta e os remédios que o paciente já toma.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "new_medication": {
+            "type": "string",
+            "description": "O princípio ativo do novo medicamento que se deseja prescrever (ex: Ibuprofeno)."
+          },
+          "current_medications": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Lista de princípios ativos que o paciente já utiliza."
+          }
+        },
+        "required": ["new_medication", "current_medications"]
+      }
+    }
+  }
+]
