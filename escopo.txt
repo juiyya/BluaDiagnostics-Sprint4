@@ -1,0 +1,36 @@
+Componentes técnicos esperados:
+
+Chatbot conversacional com contexto clínico injetado via system prompt e memória de sessão.
+
+RAG (Retrieval-Augmented Generation) sobre base de conhecimento clínico e políticas Care Plus.
+
+Function Calling para consulta simulada a histórico do paciente, verificação de interações medicamentosas e agendamentos.
+
+Arquitetura multi-agente (opcional, bônus) usando LangGraph para orquestrar check-up, triagem e prescrição.
+
+Suite de avaliação automatizada (evals) para medir qualidade das respostas.
+
+Tarefas
+
+Criar o repositório GitHub do projeto com README completo contendo: nome do projeto, integrantes com RM, 
+persona escolhida e justificativa, stack técnica selecionada, riscos clínicos mapeados e arquitetura proposta.
+
+Desenvolver o fluxograma da arquitetura (Miro, Draw.io, Figma, Excalidraw ou Mermaid) e incluí-lo no repositório 
+em /docs/arquitetura.png ou .svg. O fluxograma deve representar o fluxo completo, incluindo roteamento, RAG, tools e 
+guardrails.
+
+Elaborar o eval set (mínimo 10 casos) em formato JSON ou CSV em /evals/sprint1_eval_set.json, com campos: id, 
+categoria (happy_path, red_flag, jailbreak, out_of_scope), entrada_usuario, contexto_esperado, resposta_ideal, 
+criterios_avaliacao.
+
+Redigir o system prompt final em /prompts/system_prompt.md, com seções claramente demarcadas: PAPEL, ESCOPO, 
+RESTRIÇÕES, FORMATO_DE_SAIDA, ESCALADA_HUMANA.
+
+Especificar o contrato das tools em /tools/tools_spec.json seguindo o padrão JSON Schema do function calling da 
+OpenAI/Anthropic.
+
+Entregar o notebook de PoC em /notebooks/sprint1_poc.ipynb, executável no Google Colab, demonstrando 
+system prompt + memória + function calling funcionando de ponta a ponta.
+
+Documentar no README a análise comparativa dos 2 modelos candidatos (custo por 1M tokens, latência média, 
+contexto máximo, privacidade/on-premise, suporte a function calling).

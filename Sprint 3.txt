@@ -1,0 +1,131 @@
+Contexto do Challenge
+
+A Care Plus é uma operadora de saúde premium com mais de 30 anos de atuação no Brasil e parte do grupo Bupa,
+presente em mais de 190 países. Atende mais de 600 mil beneficiários em planos médicos, 
+odontológicos e de saúde ocupacional, sendo pioneira no uso de tecnologia para melhorar a jornada do cuidado com soluções 
+como telemedicina em 8 especialidades, chatbot de atendimento, TytoCare para exames remotos e o app Blua para gestão
+integrada do plano.
+
+Dentro do ecossistema Blua, a Care Plus identifica uma oportunidade crítica: o app, hoje, é majoritariamente reativo — 
+serve para agendar, autorizar e consultar. A visão estratégica da área de inovação é transformar o Blua em uma 
+plataforma de cuidado proativo, capaz de conduzir check-ups digitais e orquestrar prescrições remotas automatizadas 
+e seguras após teleconsulta.
+
+É aqui que entra o BluaDiagnostics — 
+o problema central que vocês, alunos de Prompt Engineering e IA, vão atacar usando modelos de linguagem, RAG, 
+function calling e orquestração multi-agente com LangGraph.
+
+O Problema Central — BluaDiagnostics
+
+Como podemos transformar o Blua em uma plataforma de cuidado remoto proativo, com check-up digital conversacional e 
+suporte à prescrição automatizada, segura e integrada ao histórico do beneficiário?
+
+Dois pilares a serem atacados:
+
+Digital Check-up: autoavaliação conversacional guiada por IA que coleta sinais vitais (manuais ou simulados via wearables),
+sintomas atuais e dispara rastreios preventivos com detecção de sinais de alerta (red flags clínicas).
+Prescrição Remota Inteligente: agente de IA que, após a teleconsulta, sugere prescrições baseadas no histórico do paciente,
+valida interações medicamentosas e encaminha para aprovação do médico — nunca substituindo o profissional, 
+apenas acelerando o fluxo.
+
+Componentes técnicos esperados:
+
+Chatbot conversacional com contexto clínico injetado via system prompt e memória de sessão.
+RAG (Retrieval-Augmented Generation) sobre base de conhecimento clínico e políticas Care Plus.
+Function Calling para consulta simulada a histórico do paciente, verificação de interações medicamentosas e agendamentos.
+Arquitetura multi-agente (opcional, bônus) usando LangGraph para orquestrar check-up, triagem e prescrição.
+Suite de avaliação automatizada (evals) para medir qualidade das respostas.
+
+Sprint 1 — Exploração, Arquitetura e Prova de Conceito do BluaDiagnostics
+
+Objetivos Principais
+
+Compreender profundamente o problema BluaDiagnostics e identificar como um sistema de IA conversacional pode materializar 
+os pilares de check-up digital e prescrição remota para o Blua.
+Definir a arquitetura técnica da solução: modelo de IA, estratégia de prompting, base de conhecimento para RAG, 
+funções (tools) a serem expostas e persona atendida.
+Entregar uma prova de conceito (PoC) funcional em notebook — um chatbot com 
+system prompt + memória de contexto + pelo menos uma tool via function calling — validando a viabilidade técnica.
+Estruturar o repositório GitHub com toda a documentação da Sprint 1, incluindo arquitetura, decisões técnicas e modelo 
+de avaliação.
+
+Objetivos Específicos
+
+Escolher e justificar a persona atendida: beneficiário final em autoavaliação, médico pós-teleconsulta na geração de 
+prescrição, ou operador clínico na triagem. A escolha da persona define o tom, escopo e riscos do agente.
+
+Mapear os riscos clínicos e éticos do uso de IA em saúde: alucinação em contexto médico, viés, LGPD, responsabilidade 
+sobre prescrição, papel do humano-no-loop (HITL). Documentar mitigações no system prompt e na arquitetura.
+Selecionar e justificar o modelo de IA (Claude, GPT-4, Gemini, Llama, Qwen ou outro via Ollama/llama.cpp) e o 
+framework (LangChain, LangGraph, SDK nativo). 
+
+Comparar pelo menos 2 opções com critérios de latência, custo, privacidade e qualidade clínica.
+
+Elaborar o fluxograma da arquitetura com: entrada do usuário, roteamento de intents, chamada ao LLM, 
+consulta RAG à base de conhecimento, invocação de tools (function calling), validação de guardrails e saída 
+contextualizada.
+
+Definir a base de conhecimento inicial para o RAG: no mínimo 5 documentos simulados (bulas resumidas, protocolos de 
+triagem Manchester simplificados, políticas Care Plus sobre telemedicina, cartilhas educativas do beneficiário). 
+Esses documentos serão indexados na Sprint 2.
+
+Especificar o contrato das tools via function calling: nome, descrição, parâmetros JSON Schema e comportamento simulado. 
+Mínimo obrigatório: consultar_historico_paciente, verificar_interacoes_medicamentosas, agendar_teleconsulta.
+
+Redigir o system prompt do agente, incorporando: persona, escopo clínico, restrições (não diagnosticar sem humano), 
+formato de saída estruturada, tom de comunicação e protocolo de escalada para atendimento humano.
+
+Criar um dataset de avaliação (eval set) com no mínimo 10 casos de teste cobrindo: happy path, edge cases 
+clínicos (sintomas de red flag), tentativas de jailbreak (pedido de diagnóstico definitivo ou prescrição sem médico) 
+e perguntas fora de escopo.
+
+Entregar um notebook de PoC funcional em Python demonstrando: chamada ao LLM escolhido com system prompt aplicado, 
+memória de conversa com no mínimo 3 turnos coerentes, e invocação bem-sucedida de pelo menos uma tool via function calling.
+
+Tarefas
+
+Criar o repositório GitHub do projeto com README completo contendo: nome do projeto, integrantes com RM, 
+persona escolhida e justificativa, stack técnica selecionada, riscos clínicos mapeados e arquitetura proposta.
+
+Desenvolver o fluxograma da arquitetura (Miro, Draw.io, Figma, Excalidraw ou Mermaid) e incluí-lo no repositório 
+em /docs/arquitetura.png ou .svg. O fluxograma deve representar o fluxo completo, incluindo roteamento, RAG, tools e 
+guardrails.
+
+Elaborar o eval set (mínimo 10 casos) em formato JSON ou CSV em /evals/sprint1_eval_set.json, com campos: id, 
+categoria (happy_path, red_flag, jailbreak, out_of_scope), entrada_usuario, contexto_esperado, resposta_ideal, 
+criterios_avaliacao.
+
+Redigir o system prompt final em /prompts/system_prompt.md, com seções claramente demarcadas: PAPEL, ESCOPO, 
+RESTRIÇÕES, FORMATO_DE_SAIDA, ESCALADA_HUMANA.
+
+Especificar o contrato das tools em /tools/tools_spec.json seguindo o padrão JSON Schema do function calling da 
+OpenAI/Anthropic.
+
+Entregar o notebook de PoC em /notebooks/sprint1_poc.ipynb, executável no Google Colab, demonstrando 
+system prompt + memória + function calling funcionando de ponta a ponta.
+
+Documentar no README a análise comparativa dos 2 modelos candidatos (custo por 1M tokens, latência média, 
+contexto máximo, privacidade/on-premise, suporte a function calling).
+
+Observações Importantes
+
+O BluaDiagnostics lida com contexto clínico. Nenhuma resposta do agente pode afirmar diagnóstico definitivo ou 
+substituir médico — isso deve estar explícito no system prompt e validado por casos no eval set.
+Nenhuma API key pode aparecer em commits. Utilizar variáveis de ambiente, python-dotenv ou Google Colab Secrets. 
+Commits com chaves expostas terão desconto na nota.
+A escolha do modelo deve ser justificada tecnicamente — "é o que eu já usei" não é justificativa. 
+Critérios esperados: adequação clínica, suporte a function calling estruturado, custo e privacidade.
+Grupos que simularem integração com wearables (Apple Health, Google Fit, Oura) via dados mockados em JSON ganharão 
+reconhecimento adicional.
+
+Entregável
+
+APENAS um arquivo .txt contendo: nome e RM de cada integrante do grupo, link do repositório GitHub com README, 
+fluxograma, system prompt, eval set, especificação de tools e notebook de PoC da Sprint 1.
+
+Condições de Entrega
+
+A integridade do arquivo é responsabilidade do grupo.
+Arquivos vazios, corrompidos ou com repositórios privados sem acesso ao professor não serão considerados.
+Não serão aceitos envios pelo Teams ou fora do prazo.
+Qualquer exposição de API key no histórico do Git implica em desconto automático de 10 pontos.

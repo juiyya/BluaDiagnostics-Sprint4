@@ -1,0 +1,52 @@
+
+Mapeamento Tecnológico do BluaDiagnostics
+
+1. Pilar: Digital Check-up (O Agente Triador)
+Este pilar foca em coleta de dados e avaliação de risco em tempo real. 
+A natureza cíclica do LangGraph brilha aqui para manter o fluxo da conversa até que os dados necessários sejam coletados.
+
+Orquestração (LangGraph):O grafo gerencia os estados da conversa. Se o paciente relatar um sintoma crítico 
+(ex: dor no peito irradiando para o braço), uma rota condicional no LangGraph desvia imediatamente o 
+fluxo de "Check-up" para o nó de "Red Flag / Encaminhamento de Emergência", interrompendo a conversa padrão.
+
+Function Calling:
+    * `get_wearable_data(patient_id)`: Para extrair batimentos cardíacos ou saturação de oxigênio do 
+    * `Apple Health/Google Fit do paciente.
+
+    * `register_symptoms(patient_id, symptoms_list)`: Para estruturar o que o paciente diz e salvar no banco de dados.
+
+RAG: Conectado a uma base de conhecimento de protocolos médicos de triagem 
+(como o Protocolo de Manchester ou diretrizes de clínica médica) 
+para que o modelo saiba quais perguntas fazer em seguida com base nos sintomas iniciais.
+
+2. : Prescrição Remota Inteligente (O Agente Copiloto Clínico)
+Este pilar atua no *backend* da teleconsulta. O foco é segurança (evitar iatrogenia) e eficiência para o médico.
+
+Orquestração (LangGraph):Um fluxo linear e estrito. O médico insere o diagnóstico/conduta $\rightarrow$ 
+O Agente analisa $\rightarrow$ O Agente sugere $\rightarrow$ O Médico aprova e assina digitalmente.
+
+RAG (Histórico do Paciente):Antes de sugerir qualquer coisa, o agente busca no banco vetorial o histórico do 
+beneficiário na Care Plus (ex: alergias, doenças crônicas, medicações de uso contínuo, últimos exames laboratoriais).
+
+Function Calling:
+    * `check_drug_interaction(new_drug, current_drugs)`: Chama uma API médica externa (ou banco de dados interno) 
+    para validar se o remédio sugerido reage mal com o que o paciente já toma.
+
+    * `draft_prescription(medications, dosage)`: Formata a receita no padrão do sistema Blua para que o 
+    médico apenas clique em "Aprovar e Assinar".
+
+---
+
+1. Desenho do Grafo (LangGraph):** Mapear os *Nodes* (Agentes/Ferramentas) e 
+as *Edges* (Rotas condicionais, como os gatilhos de Red Flags) do sistema.
+
+2. Criação dos Prompts de Sistema (System Prompts):** Escrever as personas e regras de segurança 
+estritas para o Agente Triador e para o Agente Copiloto.
+
+3. Definição dos Schemas de Function Calling:** Estruturar o JSON das funções que a IA vai chamar 
+(ex: como a IA vai enviar os dados vitais ou buscar o histórico).
+
+4. Estratégia de RAG:** Definir quais documentos/dados vamos vetorizar e como faremos a busca 
+(ex: busca híbrida, metadata filtering por paciente).
+
+
