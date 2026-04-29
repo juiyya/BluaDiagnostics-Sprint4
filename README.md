@@ -1,4 +1,4 @@
-# Sprint 3 PROMPT 
+# Sprint 1 PROMPT 
 
 **Intelligent E2E Testing Platform** - AI-powered test generation, execution, and analysis.
 
