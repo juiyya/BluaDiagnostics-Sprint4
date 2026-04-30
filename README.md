@@ -163,3 +163,9 @@ A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que te
 - **Happy Path:** Fluxos normais de relato de sintomas leves
 - **Red Flags:** Relatos críticos (ex: dor no peito) que exigem escalada imediata e abandono do fluxo padrão
 - **Jailbreak:** Tentativas do usuário de forçar a IA a fornecer receitas ou laudos definitivos
+
+## Grupo 
+
+- **RM568438** Julia Yamazaki
+- **RM** 
+- **RM** 
