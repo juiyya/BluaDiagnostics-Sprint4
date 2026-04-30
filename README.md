@@ -1,265 +1,110 @@
-# Sprint 1 PROMPT 
+# BluaDiagnostics - Care Plus Sprint 1
 
-**Intelligent E2E Testing Platform** - AI-powered test generation, execution, and analysis.
+**Plataforma Inteligente de Cuidado Proativo** - Transformando o app Blua através de IA conversacional, check-ups digitais e orquestração segura de saúde.
 
 ## Overview
 
-TestForge AI is a comprehensive testing platform that combines:
-- **Frontend**: Electron + React + TypeScript with a modern UI
-- **Backend**: FastAPI + Python with async support
-- **AI**: LangGraph + RAG (ChromaDB) + OpenAI/Ollama for intelligent test generation
-- **Testing**: Playwright for E2E, pytest for API, OpenTelemetry for tracing
+O **BluaDiagnostics** é uma iniciativa de inovação desenvolvida para a Care Plus (grupo Bupa). O objetivo é evoluir o ecossistema do aplicativo Blua de um modelo puramente reativo (agendamentos e consultas) para uma plataforma de cuidado proativo. 
+
+A solução integra modelos de linguagem (LLMs) seguros em ambiente clínico para:
+- **Digital Check-up:** Autoavaliação conversacional guiada para coleta de sinais vitais e rastreio de sintomas (*red flags*).
+- **Prescrição Remota Inteligente:** Triagem e validação de interações medicamentosas que aceleram a tomada de decisão do médico (conceito *Human-In-The-Loop*).
 
 ## Features
 
-- **Multi-Layer Testing**: Frontend (Playwright), Backend (API), Database, Infrastructure
-- **AI-Powered Test Generation**: Generate tests from natural language descriptions
-- **Failure Analysis**: AI-assisted root cause analysis with fix suggestions
-- **Distributed Tracing**: OpenTelemetry integration for cross-layer visibility
-- **RAG-Enhanced Context**: Codebase indexing for context-aware AI responses
-- **Comprehensive Reports**: HTML, PDF, JSON, JUnit XML, and Markdown exports
-- **Modern UI**: Dark/light theme, real-time test execution, trace visualization
+- **Arquitetura:** System Prompts rigorosos com guardrails clínicos contra diagnósticos definitivos.
+- **RAG:** Respostas fundamentadas em protocolos de triagem Manchester, políticas Care Plus e bulas.
+- **Function Calling:** Integração simulada com sistemas de prontuário eletrônico (EHR) e agendas via chamadas de função.
+- **Evals:** Suite de testes validando *happy paths*, *red flags* e tentativas de *jailbreak*.
+- **Orquestração Multi-Agente:** Preparação de terreno para LangGraph gerenciar roteamento entre triagem, consulta e prescrição.
+
+## Decisões Arquiteturais (Sprint 1)
+
+### 1. Persona Atendida
+**Beneficiário final em autoavaliação (Digital Check-up).**
+A escolha foca no gargalo de entrada do cuidado proativo. O agente foi desenhado com tom de voz empático e acessível, com a responsabilidade restrita à coleta de sintomas, cruzamento com histórico e acionamento de protocolos de urgência, escalando para o médico humano sem emitir diagnósticos.
+
+### 2. Seleção de Modelos (LLMs)
+Comparativo para a fundação da arquitetura:
+*   **GPT-4o-mini:** Excelente latência, custo competitivo ($0.15/1M tokens) e extrema confiabilidade em *Function Calling* e *JSON schemas*.
+*   **Gemini 1.5 Flash:** Janela de contexto massiva (ideal para RAGs complexos), integração nativa rápida, latência baixíssima.
+*   **Decisão Técnica:** GPT-4o-mini (ou outro à escolha do grupo) devido à robustez superior na adesão às restrições do System Prompt e previsibilidade na chamada de tools clínicas.
+
+### 3. Gestão de Riscos Clínicos
+*   **Alucinação Clínica:** Mitigada pelo confinamento do RAG a documentos oficiais aprovados e restrições absolutas no prompt.
+*   **Privacidade (LGPD):** Anonimização de PII no front-end; o LLM processa apenas identificadores criptografados ao usar tools.
+*   **Responsabilidade:** Implementação de *Human-in-the-loop (HITL)* obrigatório para aprovação de prescrições geradas pelas tools.
 
 ## Prerequisites
 
-- Node.js 18+
-- Miniconda/Anaconda (Python env via conda only)
-- PostgreSQL 16+
-- Redis (optional)
-- Ollama (optional, for local AI)
+- Python 3.10+
+- Conta no Google Colab (para rodar o notebook da PoC)
+- Chaves de API do modelo de IA escolhido (ex: OpenAI, Anthropic ou Google)
 
 ## Quick Start
 
-### 1. Clone and Setup
-
+### 1. Clone o Repositório
 ```bash
-cd testforge
-
-# Create conda env (run once)
-conda create -n testforge-env python=3.12
-conda activate testforge-env
-
-# Install all dependencies (Makefile uses conda run -n testforge-env)
-make install
+git clone [https://github.com/sua-org/bluadiagnostics.git](https://github.com/sua-org/bluadiagnostics.git)
 ```
+### 2. Configure o Ambiente
+# Exemplo de .env
+OPENAI_API_KEY=sk-sua-chave-aqui
+# ou
+GEMINI_API_KEY=AIzaSy-sua-chave-aqui
 
-### 2. Configure Environment
+### 3. Execução da Prova de Conceito (PoC)
 
-```bash
-# Backend configuration
-cp backend/.env.example backend/.env
-# Edit backend/.env with your settings
-```
+Abra o arquivo localizado em notebooks/sprint1_poc.ipynb utilizando o Google Colab ou o Jupyter Notebook local para testar a memória conversacional, o system prompt e o function calling.
 
-### 3. Start PostgreSQL (Docker)
+### Project Structure 
 
-```bash
-docker run -d --name testforge-db \
-  -e POSTGRES_USER=testforge \
-  -e POSTGRES_PASSWORD=testforge \
-  -e POSTGRES_DB=testforge \
-  -p 5432:5432 \
-  postgres:16
-```
+bluadiagnostics/
+├── docs/
+│   └── arquitetura.md           # Fluxograma completo (roteamento, RAG, tools)
+├── evals/
+│   └── sprint1_eval_set.json    # Dataset de validação (10+ casos de teste)
+├── prompts/
+│   └── system_prompt.md         # Diretrizes, papel, restrições e regras do agente
+├── tools/
+│   └── tools_spec.json          # Contratos JSON Schema das funções mockadas
+├── notebooks/
+│   └── sprint1_poc.py           # PoC em Python (Executável no Colab)
+├── .gitignore                   # Arquivo de exclusão do git
+└── README.md                    # Documentação principal
 
-### 4. Initialize Database
+### Function Calling
+A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a IA acionar durante o diálogo:
+## consultar_historico_paciente 
+- **Descrição**: Busca o histórico médico básico do paciente (alergias, cirurgias, condições crônicas).
+- **Parâmetros**: id_paciente.
 
-```bash
-make db-upgrade
-```
+## verificar_interacoes_medicamentosas
+- **Descrição**: Cruza uma medicação sugerida com o histórico de alergias e prescrições ativas do usuário.
+- **Parâmetros**: medicamento_sugerido (string), id_paciente (string).
 
-### 5. Start Development
+## agendar_teleconsulta
+- **Descrição**: Aciona o fluxo de agendamento ou entrada em fila de urgência com base no nível de prioridade da triagem.
+- **Parâmetros**: id_paciente (string), prioridade (enum: alta, media, baixa), sintoma_principal (string).
 
-```bash
-# Terminal 1: Start backend
-make dev-backend
+### RAG 
+Na Sprint 1, foram simulados 5 documentos que ancoram o conhecimento da IA:
 
-# Terminal 2: Start frontend (Electron)
-make dev-electron
-```
+    Protocolo de Triagem de Dor (Simplificado).
 
-## Project Structure
+    Protocolo de Monitoramento de Sinais Vitais Pós-Operatórios.
 
-```
-testforge/
-├── package.json              # Frontend dependencies
-├── electron/                 # Electron main process
-│   ├── main.ts              # Main entry point
-│   ├── preload.ts           # IPC bridge
-│   └── backend-manager.ts   # Backend process management
-├── src/                      # React frontend
-│   ├── components/          # UI components
-│   ├── features/            # Feature modules
-│   ├── stores/              # Zustand stores
-│   └── services/            # API client
-├── backend/                  # Python backend
-│   ├── app/
-│   │   ├── api/v1/          # REST endpoints
-│   │   ├── models/          # SQLAlchemy models
-│   │   ├── schemas/         # Pydantic schemas
-│   │   ├── core/
-│   │   │   ├── runners/     # Test runners
-│   │   │   └── tracing/     # OpenTelemetry
-│   │   ├── ai/
-│   │   │   ├── agents/      # LangGraph agents
-│   │   │   └── rag/         # RAG pipeline
-│   │   └── reports/         # Report generation
-│   └── alembic/             # Database migrations
-```
+    Política Interna de Telemedicina Care Plus.
 
-## API Endpoints
+    Bula resumida (ex: Dipirona, Paracetamol).
+    
+    Cartilha de prevenção de saúde primária do aplicativo Blua.
 
-### Projects
-- `GET /api/v1/projects` - List projects
-- `POST /api/v1/projects` - Create project
-- `GET /api/v1/projects/{id}` - Get project
-- `PATCH /api/v1/projects/{id}` - Update project
-- `DELETE /api/v1/projects/{id}` - Delete project
+### EVALS
+A consistência da IA é medida contra o dataset sprint1_eval_set.json, que testa:
 
-### Test Runs
-- `GET /api/v1/projects/{id}/runs` - List test runs
-- `POST /api/v1/projects/{id}/runs` - Start test run
-- `GET /api/v1/projects/{id}/runs/{run_id}` - Get test run
-- `POST /api/v1/projects/{id}/runs/{run_id}/stop` - Stop test run
+    Happy Path: Fluxos normais de relato de sintomas leves.
 
-### AI
-- `POST /api/v1/ai/generate` - Generate tests
-- `POST /api/v1/ai/analyze` - Analyze failure
-- `POST /api/v1/ai/chat` - Chat with assistant
+    Red Flags: Relatos críticos (ex: dor no peito) que exigem escalada imediata e abandono do fluxo padrão.
 
-### Traces
-- `GET /api/v1/traces` - List traces
-- `GET /api/v1/traces/{id}` - Get trace
-
-### Reports
-- `POST /api/v1/reports/generate` - Generate report
-
-## Configuration
-
-### Environment Variables
-
-```bash
-# Application
-APP_NAME=TestForge AI
-DEBUG=false
-ENVIRONMENT=development
-
-# Database
-DATABASE_URL=postgresql+asyncpg://testforge:testforge@localhost:5432/testforge
-
-# AI Providers
-OPENAI_API_KEY=sk-...
-OLLAMA_BASE_URL=http://localhost:11434
-DEFAULT_AI_PROVIDER=openai
-DEFAULT_AI_MODEL=gpt-4
-
-# Tracing
-ENABLE_TRACING=true
-JAEGER_ENDPOINT=localhost:6831
-```
-
-## Test Runners
-
-### Frontend Runner (Playwright)
-```python
-from app.core.runners import FrontendRunner, RunnerConfig
-
-runner = FrontendRunner(RunnerConfig(
-    headless=True,
-    browser="chromium",
-    viewport_width=1280,
-    viewport_height=720,
-))
-```
-
-### Backend Runner (API)
-```python
-from app.core.runners import BackendRunner, RunnerConfig
-
-runner = BackendRunner(RunnerConfig(
-    base_url="http://localhost:8000",
-    timeout_ms=30000,
-))
-```
-
-### Database Runner
-```python
-from app.core.runners import DatabaseRunner, RunnerConfig
-
-runner = DatabaseRunner(RunnerConfig(
-    database_url="postgresql://...",
-))
-```
-
-## AI Integration
-
-### Test Generation
-```python
-from app.ai.agents import TestGeneratorAgent
-
-agent = TestGeneratorAgent()
-result = await agent.generate(
-    prompt="Generate login tests",
-    project_id="...",
-    test_type="e2e",
-)
-```
-
-### Failure Analysis
-```python
-from app.ai.agents import FailureAnalyzerAgent
-
-agent = FailureAnalyzerAgent()
-analysis = await agent.analyze(
-    error_message="Element not found",
-    error_stack="...",
-    test_name="login_test",
-    test_file="tests/login.spec.ts",
-    project_id="...",
-)
-```
-
-## Building for Production
-
-### Build Frontend
-```bash
-npm run build:frontend
-```
-
-### Package Electron App
-```bash
-npm run electron:build
-```
-
-### Build Backend (PyInstaller)
-```bash
-cd backend
-pyinstaller --onefile -n testforge-backend app/main.py
-```
-
-## Development
-
-### Run Tests
-```bash
-make test-frontend
-make test-backend
-```
-
-### Code Quality
-```bash
-make lint
-make format
-make typecheck
-```
-
-## License
-
-MIT License
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests and linting
-5. Submit a pull request
+    Jailbreak: Tentativas do usuário de forçar a IA a fornecer receitas ou laudos definitivos.
