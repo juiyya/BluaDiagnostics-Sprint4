@@ -98,15 +98,23 @@ bluadiagnostics/
 
 ```bash
 git clone https://github.com/sua-org/bluadiagnostics.git
+
 ```
 
 ### 2. Configure o Ambiente
 
-```env
-# Exemplo de .env
-OPENAI_API_KEY=sk-sua-chave-aqui
-# ou
-GEMINI_API_KEY=AIzaSy-sua-chave-aqui
+```bash
+%pip install -qU langchain langchain-ollama langgraph pydantic
+import os
+from langchain_core.tools import tool
+from typing import Annotated
+from typing_extensions import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.checkpoint.memory import MemorySaver
+from langchain_ollama import ChatOllama
+from langchain_core.messages import SystemMessage
 ```
 ### 3. Execução da Prova de Conceito (PoC)
 

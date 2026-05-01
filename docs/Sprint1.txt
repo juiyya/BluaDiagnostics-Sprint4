@@ -1,4 +1,11 @@
-Digital Check-up: autoavaliação conversacional guiada por IA que coleta sinais vitais (manuais ou simulados via wearables), sintomas atuais e dispara rastreios 
+Entregável
+
+APENAS um arquivo .txt contendo: nome e RM de cada integrante do grupo, link do repositório GitHub com README, 
+fluxograma, system prompt, eval set, especificação de tools e notebook de PoC da Sprint 
+
+
+1.Digital Check-up: autoavaliação conversacional guiada por IA que coleta sinais vitais 
+(manuais ou simulados via wearables), sintomas atuais e dispara rastreios 
 preventivos com detecção de sinais de alerta (red flags clínicas).
 
 Prescrição Remota Inteligente: agente de IA que, após a teleconsulta, sugere prescrições baseadas no histórico do paciente, valida interações medicamentosas e 
