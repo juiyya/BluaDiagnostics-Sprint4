@@ -18,7 +18,6 @@ A solução integra modelos de linguagem (LLMs) seguros em ambiente clínico par
 ## Features
 
 - **Arquitetura:** System Prompts rigorosos com guardrails clínicos contra diagnósticos definitivos.
-- **RAG:** Respostas fundamentadas em protocolos de triagem, políticas Care Plus e bulas.
 - **Function Calling:** Integração simulada com sistemas de prontuário eletrônico (EHR) e agendas via chamadas de função.
 - **Evals:** Conjunto de testes validando *happy paths*, *red flags* e tentativas de *jailbreak*.
 - **Orquestração Multi-Agente:** Preparação de terreno para LangGraph gerenciar roteamento entre triagem, consulta e prescrição.
@@ -54,15 +53,6 @@ Comparativo para a fundação da arquitetura:
 **Decisão Técnica:**  
 Optou-se pelo **Llama** devido à sua maior maturidade no ecossistema open-source, flexibilidade de implementação e melhor alinhamento com requisitos de privacidade e controle da solução, fatores críticos para aplicações em contexto clínico.
 
----
-
-### 3. Gestão de Riscos Clínicos
-
-- **Alucinação Clínica:** Mitigada pelo confinamento do RAG a documentos oficiais aprovados e restrições absolutas no prompt.
-- **Privacidade (LGPD):** Anonimização de PII no front-end; o LLM processa apenas identificadores criptografados ao usar tools.
-- **Responsabilidade:** Implementação de *Human-in-the-loop (HITL)* obrigatório para aprovação de prescrições geradas pelas tools.
-
----
 
 ## Prerequisites
 
@@ -77,9 +67,9 @@ Optou-se pelo **Llama** devido à sua maior maturidade no ecossistema open-sourc
 ```
 bluadiagnostics/
 ├── docs/
-│   └── arquitetura.md           # Fluxograma completo (roteamento, RAG, tools)
+│   └── arquitetura.md           # Fluxograma completo (roteamento, tools)
 ├── evals/
-│   └── sprint1_eval_set.json    # Dataset de validação (10+ casos de teste)
+│   └── sprint1_eval_set.json    # Dataset de validação 
 ├── prompts/
 │   └── system_prompt.md         # Diretrizes, papel, restrições e regras do agente
 ├── tools/
@@ -152,18 +142,6 @@ A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a I
 
 ---
 
-## RAG
-
-Na Sprint 1, foram simulados 5 documentos que ancoram o conhecimento da IA:
-
-- Protocolo de Triagem de Dor (Simplificado)
-- Protocolo de Monitoramento de Sinais Vitais Pós-Operatórios
-- Política Interna de Telemedicina Care Plus
-- Bula resumida (ex: Dipirona, Paracetamol)
-- Cartilha de prevenção de saúde primária do aplicativo Blua
-
----
-
 ## EVALS
 
 A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que testa:
@@ -175,5 +153,5 @@ A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que te
 ## Grupo 
 
 - **RM568438** Julia Yamazaki
-- **RM** 
+- **RM568081** Bryan de Almeida 
 - **RM** 
