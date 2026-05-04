@@ -39,5 +39,22 @@
         "required": ["new_medication", "current_medications"]
       }
     }
-  }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "agendar_teleconsulta",
+      "description": "Agenda uma teleconsulta para o paciente com base nas informações disponíveis.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "new_medication": {
+            "type": "string",
+            "description": "agendar"
+          }
+          }
+        }
+      }
+    }
 ]
+  

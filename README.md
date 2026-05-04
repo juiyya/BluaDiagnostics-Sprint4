@@ -58,7 +58,6 @@ Optou-se pelo **Llama** devido à sua maior maturidade no ecossistema open-sourc
 
 - Python 3.10+
 - Conta no Google Colab (para rodar o notebook da PoC)
-- Chaves de API do modelo de IA escolhido (ex: OpenAI, Anthropic ou Google)
 
 ---
 
@@ -67,16 +66,19 @@ Optou-se pelo **Llama** devido à sua maior maturidade no ecossistema open-sourc
 ```
 bluadiagnostics/
 ├── docs/
-│   └── arquitetura.md           # Fluxograma completo (roteamento, tools)
+│   └── arquitetura.md 
+│   └──arquitetura.png       # Fluxograma completo (roteamento, tools)
 ├── evals/
 │   └── sprint1_eval_set.json    # Dataset de validação 
 ├── prompts/
-│   └── system_prompt.md         # Diretrizes, papel, restrições e regras do agente
+│   └── system_prompt.py         # Diretrizes, papel, restrições e regras do agente
 ├── tools/
 │   └── tools_spec.json          # Contratos JSON Schema das funções mockadas
 ├── notebooks/
 │   └── sprint1_poc.py           # PoC em Python (Executável no Colab)
 ├── .gitignore                   # Arquivo de exclusão do git
+└── grupo.txt                    # Integrantes do grupo
+└── LICENSE                      
 └── README.md                    # Documentação principal
 ```
 
@@ -95,16 +97,6 @@ git clone https://github.com/sua-org/bluadiagnostics.git
 
 ```bash
 %pip install -qU langchain langchain-ollama langgraph pydantic
-import os
-from langchain_core.tools import tool
-from typing import Annotated
-from typing_extensions import TypedDict
-from langgraph.graph import StateGraph, START, END
-from langgraph.graph.message import add_messages
-from langgraph.prebuilt import ToolNode, tools_condition
-from langgraph.checkpoint.memory import MemorySaver
-from langchain_ollama import ChatOllama
-from langchain_core.messages import SystemMessage
 ```
 ### 3. Execução da Prova de Conceito (PoC)
 
@@ -133,7 +125,7 @@ A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a I
 ---
 
 ### `agendar_teleconsulta`
-
+(sprint 2)
 - **Descrição:** Aciona o fluxo de agendamento ou entrada em fila de urgência com base no nível de prioridade da triagem.
 - **Parâmetros:**
   - `id_paciente` (string)
