@@ -53,54 +53,17 @@ Comparativo para a fundação da arquitetura:
 **Decisão Técnica:**  
 Optou-se pelo **Llama** devido à sua maior maturidade no ecossistema open-source, flexibilidade de implementação e melhor alinhamento com requisitos de privacidade e controle da solução, fatores críticos para aplicações em contexto clínico.
 
-
-## Prerequisites
-
-- Python 3.10+
-- Conta no Google Colab (para rodar o notebook da PoC)
-
 ---
 
-## Project Structure
+### Mapeamento de Riscos Clínicos e Éticos 
 
-```
-bluadiagnostics/
-├── docs/
-│   └── arquitetura.md 
-│   └──arquitetura.png       # Fluxograma completo (roteamento, tools)
-├── evals/
-│   └── sprint1_eval_set.json    # Dataset de validação 
-├── prompts/
-│   └── system_prompt.py         # Diretrizes, papel, restrições e regras do agente
-├── tools/
-│   └── tools_spec.json          # Contratos JSON Schema das funções mockadas
-├── notebooks/
-│   └── sprint1_poc.py           # PoC em Python (Executável no Colab)
-├── .gitignore                   # Arquivo de exclusão do git
-└── grupo.txt                    # Integrantes do grupo
-└── LICENSE                      
-└── README.md                    # Documentação principal
-```
-
----
-
-## Quick Start
-
-### 1. Clone o Repositório
-
-```bash
-git clone https://github.com/sua-org/bluadiagnostics.git
-
-```
-
-### 2. Configure o Ambiente
-
-```bash
-%pip install -qU langchain langchain-ollama langgraph pydantic
-```
-### 3. Execução da Prova de Conceito (PoC)
-
-Abra o arquivo localizado em *notebooks/sprint1_poc.ipynb* utilizando o Google Colab ou o Jupyter Notebook local para testar a memória conversacional, o system prompt e o function calling.
+| Risco Identificado | Descrição no Contexto de Saúde | Mitigação na Arquitetura | Mitigação no System Prompt |
+| :--- | :--- | :--- | :--- |
+| **Alucinação Médica** | O LLM inventar protocolos, valores de referência ou diagnósticos inexistentes. | Uso exclusivo de RAG (base de conhecimento validada) e temperatura `0` no Llama 3.1 para respostas determinísticas. | *"Responda estritamente com base no contexto fornecido. Se a resposta não estiver no contexto, diga: 'Não tenho essa informação'."* |
+| **Viés (Bias) Algorítmico** | O modelo priorizar ou negligenciar sintomas com base em vieses de treinamento. | Adoção do Protocolo de Manchester estruturado via RAG, padronizando a classificação de gravidade para todos os pacientes. | *"Siga rigorosamente as diretrizes de triagem listadas nos documentos. Não aplique julgamentos externos."* |
+| **Privacidade e LGPD** | Vazamento de dados sensíveis de saúde (sinais vitais, prontuários). | Execução do LLM localmente (Ollama) e banco vetorial interno (PGVector). Dados não transitam em APIs de terceiros. | *"Você está lidando com dados sensíveis protegidos pela LGPD. Nunca mencione o nome do paciente em exemplos."* |
+| **Responsabilidade de Prescrição** | O chatbot atuar como médico, sugerindo alterações em dosagens ou novos medicamentos. | Limitação de escopo (Out of Scope) definida nas avaliações. O bot atua apenas como interface de monitoramento. | *"Você é um assistente de monitoramento. NUNCA diagnostique ou prescreva medicamentos. Sempre oriente a busca por um médico."* |
+| **Human-in-the-Loop (HITL)** | A IA reter informações críticas (ex: SpO2 baixo) sem alertar a equipe médica. | Criação de "gatilhos de transbordo". Se a regra de RAG classificar como "Emergência", o sistema aciona uma API para alertar um médico real. | *"Se o paciente apresentar sinais de alerta vermelho (ex: SpO2 < 92%), instrua-o a ir ao pronto-socorro e informe que a equipe médica foi notificada."* |
 
 ---
 
@@ -142,8 +105,61 @@ A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que te
 - **Red Flags:** Relatos críticos (ex: dor no peito) que exigem escalada imediata e abandono do fluxo padrão
 - **Jailbreak:** Tentativas do usuário de forçar a IA a fornecer receitas ou laudos definitivos
 
+## Prerequisites
+
+- Python 3.10+
+- Conta no Google Colab (para rodar o notebook da PoC)
+
+---
+
+## Project Structure
+
+```
+bluadiagnostics/
+├── docs/
+│   └── arquitetura.md 
+│   └──arquitetura.png           # Fluxograma completo (roteamento, tools)
+├── evals/
+│   └── sprint1_eval_set.json    # Suite de avaliação automatizada (evals) para medir qualidade das respostas. 
+├── prompts/
+│   └── system_prompt.py         # Diretrizes, papel, restrições e regras do agente
+├── tools/
+│   └── tools_spec.json          # JSON Schema das funções mockadas
+    └── tools_spec.py
+├── notebooks/
+│   └── sprint1_poc.ipynb        # PoC 
+    └── teste.ipynb 
+├── .gitignore                   
+└── grupo.txt                    # Integrantes do grupo
+└── LICENSE                      
+└── README.md                    
+```
+
+---
+
+## Quick Start
+
+### 1. Clone o Repositório
+
+```bash
+git clone https://github.com/sua-org/bluadiagnostics.git
+
+```
+
+### 2. Configure o Ambiente
+
+```bash
+%pip install -qU langchain langchain-ollama langgraph pydantic
+```
+### 3. Execução da Prova de Conceito (PoC)
+
+Abra o arquivo localizado em *notebooks/sprint1_poc.ipynb* utilizando o Google Colab ou o Jupyter Notebook local para testar a memória conversacional, o system prompt e o function calling.
+
+---
+
 ## Grupo 
 
 - **RM568438** Julia Yamazaki
 - **RM568081** Bryan de Almeida 
 - **RM** 
+

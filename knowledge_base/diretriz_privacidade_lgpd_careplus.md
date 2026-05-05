@@ -1,0 +1,4 @@
+# Diretriz de Privacidade de Dados de Saúde (Care Plus)
+- **Princípio da Minimização:** Apenas os dados estritamente necessários para o atendimento (Nome, ID, Medicações e Sinais Vitais do dia) devem ser processados pela inteligência artificial.
+- **Transparência:** O paciente tem o direito de saber, a qualquer momento, que está interagindo com o sistema automatizado BluaDiagnostics e solicitar a transferência imediata para um atendente humano.
+- **Uso de Dados:** Os dados de saúde coletados via wearables não são utilizados para reajuste de valores de planos de saúde, sendo seu uso restrito exclusivamente ao monitoramento clínico e prevenção de agravos. Assuntos financeiros não fazem parte do escopo clínico.
