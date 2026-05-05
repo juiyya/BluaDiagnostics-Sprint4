@@ -97,7 +97,7 @@ A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a I
 
 ---
 
-## EVALS
+## Evals
 
 A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que testa:
 
@@ -117,21 +117,26 @@ A consistência da IA é medida contra o dataset `sprint1_eval_set.json`, que te
 ```
 bluadiagnostics/
 ├── docs/
-│   └── arquitetura.md 
-│   └──arquitetura.png           # Fluxograma completo (roteamento, tools)
+│   └── arquitetura.md          # Fluxograma
+│   └── arquitetura.png  
 ├── evals/
-│   └── sprint1_eval_set.json    # Suite de avaliação automatizada (evals) para medir qualidade das respostas. 
+│   └── sprint1_eval_set.json   # Suite de avaliação automatizada (evals) para medir qualidade das respostas.
+├── knowledge_base/
+    └── bula_simplificada_losartana.md 
+    └── cartilha_beneficiario_pos_operatorio.md
+    └── diretriz_privacidade_lgpd_careplus.md
+    └── politica_careplus_telemedicina.md
+    └── protocolo_triagem_manchester_vital.md 
+├── notebooks/
+│   └── sprint1_poc.ipynb        # PoC 
 ├── prompts/
-│   └── system_prompt.py         # Diretrizes, papel, restrições e regras do agente
+│   └── system_prompt.md         # Diretrizes, papel, restrições e regras do agente
 ├── tools/
 │   └── tools_spec.json          # JSON Schema das funções mockadas
     └── tools_spec.py
-├── notebooks/
-│   └── sprint1_poc.ipynb        # PoC 
-    └── teste.ipynb 
 ├── .gitignore                   
 └── grupo.txt                    # Integrantes do grupo
-└── LICENSE                      
+│── LICENSE                      
 └── README.md                    
 ```
 
