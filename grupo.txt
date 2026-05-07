@@ -1,5 +1,8 @@
-## Grupo 
+## Grupo 3
+
+https://github.com/juiyya/Care-Plus-HealthSync-DiagnsticoInteligente---Sprint-1
+
 
 - **RM568438** Julia Yamazaki
 - **RM568081** Bryan de Almeida 
-- **RM** 
+- **RM566746** Guilherme Blanco

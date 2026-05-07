@@ -154,8 +154,16 @@ git clone https://github.com/sua-org/bluadiagnostics.git
 ### 2. Configure o Ambiente
 
 ```bash
+pip install -U -r requirements.txt
+```
+OR
+```bash
 %pip install -qU langchain langchain-ollama langgraph pydantic
 ```
+```bash
+ollama run llama3.1
+```
+
 ### 3. Execução da Prova de Conceito (PoC)
 
 Abra o arquivo localizado em *notebooks/sprint1_poc.ipynb* utilizando o Google Colab ou o Jupyter Notebook local para testar a memória conversacional, o system prompt e o function calling.
@@ -166,5 +174,7 @@ Abra o arquivo localizado em *notebooks/sprint1_poc.ipynb* utilizando o Google C
 
 - **RM568438** Julia Yamazaki
 - **RM568081** Bryan de Almeida 
-- **RM** 
+- **RM566746** Guilherme Blanco
+- **RM**
+- **RM**
 
