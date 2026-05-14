@@ -6,10 +6,11 @@ from langchain_core.messages import HumanMessage
 from langchain.agents import create_agent
 from langgraph.graph import StateGraph, START, END, MessagesState
 
+# Ajuste de path para o Python encontrar a pasta 'src'
 BASE_DIR = Path(__file__).parent.parent.parent
 sys.path.append(str(BASE_DIR))
 
-# Importa as ferramentas que você já criou
+# Importa as ferramentas
 from src.tools.tools_spec import (
     buscar_dados_wearable,
     buscar_historico_paciente,
@@ -24,13 +25,17 @@ tools_triagem = [buscar_dados_wearable, buscar_historico_paciente, buscar_diretr
 tools_agendamento = [agendar_teleconsulta]
 
 # --- 2. CRIANDO OS SUB-AGENTES ---
-prompt_triagem = """Você é o agente de Triagem da Care Plus. 
-Responda dúvidas médicas, verifique o histórico do paciente e use as diretrizes. 
-Se houver Red Flag (sintomas graves, dores fortes, risco de morte), alerte o paciente para ir ao pronto-socorro imediatamente."""
+
+# O Agente de Triagem agora lê APENAS o seu arquivo system_prompt.md
+caminho_prompt = BASE_DIR / "src" / "agents" / "system_prompt.md"
+with open(caminho_prompt, "r", encoding="utf-8") as f:
+    prompt_triagem = f.read()
+
 agente_triagem = create_agent(model=llm, tools=tools_triagem, system_prompt=prompt_triagem)
 
+# O Agente de Agendamento tem um prompt focado apenas na sua tool
 prompt_agendamento = """Você é o agente de Agendamento da Care Plus. 
-Sua única função é usar a ferramenta para agendar teleconsultas. Confirme sempre a data, hora e especialidade."""
+Sua única função é usar a ferramenta para agendar teleconsultas. Confirme sempre a data, hora e especialidade com o paciente antes de finalizar."""
 agente_agendamento = create_agent(model=llm, tools=tools_agendamento, system_prompt=prompt_agendamento)
 
 # --- 3. CRIANDO OS NÓS DO GRAFO ---
@@ -50,7 +55,7 @@ supervisor_llm = ChatOllama(model="llama3.1", temperature=0, format="json")
 def roteador_supervisor(state: MessagesState) -> str:
     ultima_msg = state["messages"][-1].content
     
-    # Força o Llama a cuspir um JSON cravado para tomar a decisão
+    # Força o Llama a cuspir um JSON cravado para tomar a decisão de roteamento
     prompt = f"""
     Analise a intenção da mensagem do paciente: "{ultima_msg}"
     
@@ -63,7 +68,7 @@ def roteador_supervisor(state: MessagesState) -> str:
         destino = json.loads(resposta.content).get("destino", "triagem")
         return destino if destino in ["triagem", "agendamento"] else "triagem"
     except Exception:
-        return "triagem" # Se der erro na leitura do JSON, cai na triagem por segurança
+        return "triagem" # Fallback de segurança
 
 # --- 5. MONTANDO A ARQUITETURA MULTI-AGENTE (LangGraph) ---
 builder = StateGraph(MessagesState)

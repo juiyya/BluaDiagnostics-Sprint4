@@ -3,6 +3,9 @@
 https://github.com/juiyya/Care-Plus-HealthSync-DiagnsticoInteligente---Sprint-1
 
 
-- **RM568438** Julia Yamazaki
-- **RM568081** Bryan de Almeida 
-- **RM566746** Guilherme Blanco
+Julia - RM 568438
+Bryan - RM 568081
+Guilherme - RM566746
+Roberto - RM 567348
+Daniel - RM 567894
+Jessica - RM568024

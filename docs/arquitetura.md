@@ -1,7 +1,7 @@
 ```mermaid
 flowchart TD
     %% 1. User Interaction
-    User((Paciente)) <-->|Chat| App["Interface Chainlit<br>(app/app.py)"]
+    User((Paciente)) <-->|Chat| App["Interface Streamlit<br>(app/app.py)"]
 
     %% 2. LangGraph Entry
     App <-->|MessagesState| Supervisor{"Supervisor / Router<br>(src/graph/workflow.py)"}
