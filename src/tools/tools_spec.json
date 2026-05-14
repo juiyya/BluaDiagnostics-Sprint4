@@ -43,18 +43,48 @@
   {
     "type": "function",
     "function": {
-      "name": "agendar_teleconsulta",
-      "description": "Agenda uma teleconsulta para o paciente com base nas informações disponíveis.",
+      "name": "schedule_teleconsultation",
+      "description": "Agenda uma teleconsulta na plataforma da Care Plus, especificando a especialidade, data e horário.",
       "parameters": {
         "type": "object",
         "properties": {
-          "new_medication": {
+          "patient_id": {
             "type": "string",
-            "description": "agendar"
+            "description": "O identificador único do paciente (ex: CPF ou carteirinha)."
+          },
+          "specialty": {
+            "type": "string",
+            "description": "A especialidade médica desejada (ex: Cardiologia, Clínica Geral)."
+          },
+          "date": {
+            "type": "string",
+            "description": "A data da consulta no formato DD/MM/AAAA."
+          },
+          "time": {
+            "type": "string",
+            "description": "O horário da consulta no formato HH:MM."
           }
-          }
-        }
+        },
+        "required": ["patient_id", "specialty", "date", "time"]
       }
     }
+  },
+  {
+    "type": "function",
+    "function": {
+      "name": "buscar_diretrizes_careplus",
+      "description": "Busca informações na base de conhecimento corporativa: protocolos de triagem clínica, bula de remédios, cartilhas e políticas (telemedicina e LGPD). Use esta ferramenta sempre que precisar de embasamento clínico ou regras da Care Plus.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "A pergunta ou termo de busca específico para pesquisar nos documentos. Exemplo: 'quais os sintomas de alerta para febre?'"
+          }
+        },
+        "required": ["query"]
+      }
+    }
+  }
 ]
   

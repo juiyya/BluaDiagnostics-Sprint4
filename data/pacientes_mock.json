@@ -1,0 +1,122 @@
+{
+  "9988": {
+    "nome": "Maria",
+    "idade": 34,
+    "historico": "hipertensão",
+    "ultima_consulta": "03/2026 com Dr. João",
+    "uso_continuo": "Losartana 50mg",
+    "alergias": "Nenhuma"
+  },
+  "1234": {
+    "nome": "Carlos",
+    "idade": 45,
+    "historico": "diabetes tipo 2",
+    "ultima_consulta": "04/2026 com Dra. Ana",
+    "uso_continuo": "Metformina 500mg",
+    "alergias": "Dipirona"
+  },
+  "3321": {
+    "nome": "João",
+    "idade": 62,
+    "historico": "insuficiência cardíaca",
+    "ultima_consulta": "01/2026 com Dr. Felipe",
+    "uso_continuo": "Carvedilol 6.25mg",
+    "alergias": "AAS"
+  },
+  "4567": {
+    "nome": "Ana",
+    "idade": 28,
+    "historico": "asma",
+    "ultima_consulta": "05/2026 com Dra. Clara",
+    "uso_continuo": "Alenia",
+    "alergias": "Nenhuma"
+  },
+  "8899": {
+    "nome": "Roberto",
+    "idade": 55,
+    "historico": "dislipidemia",
+    "ultima_consulta": "02/2026 com Dr. João",
+    "uso_continuo": "Sinvastatina 20mg",
+    "alergias": "Frutos do mar"
+  },
+  "1122": {
+    "nome": "Fernanda",
+    "idade": 40,
+    "historico": "hipotireoidismo",
+    "ultima_consulta": "04/2026 com Dra. Lucia",
+    "uso_continuo": "Puran T4 50mcg",
+    "alergias": "Nenhuma"
+  },
+  "5544": {
+    "nome": "Ricardo",
+    "idade": 70,
+    "historico": "hipertensão e DPOC",
+    "ultima_consulta": "12/2025 com Dr. Marcos",
+    "uso_continuo": "Losartana 50mg, Aerolin",
+    "alergias": "Penicilina"
+  },
+  "7788": {
+    "nome": "Camila",
+    "idade": 31,
+    "historico": "enxaqueca crônica",
+    "ultima_consulta": "03/2026 com Dra. Sofia",
+    "uso_continuo": "Topiramato 50mg",
+    "alergias": "Nenhuma"
+  },
+  "9900": {
+    "nome": "Eduardo",
+    "idade": 50,
+    "historico": "arritmia",
+    "ultima_consulta": "05/2026 com Dr. Felipe",
+    "uso_continuo": "Amiodarona 200mg",
+    "alergias": "Iodo"
+  },
+  "2233": {
+    "nome": "Beatriz",
+    "idade": 25,
+    "historico": "rinite alérgica",
+    "ultima_consulta": "01/2026 com Dra. Clara",
+    "uso_continuo": "Desloratadina",
+    "alergias": "Poeira e Ácaros"
+  },
+  "6677": {
+    "nome": "Marcelo",
+    "idade": 68,
+    "historico": "hiperplasia prostática",
+    "ultima_consulta": "02/2026 com Dr. Paulo",
+    "uso_continuo": "Tansulosina 0.4mg",
+    "alergias": "Nenhuma"
+  },
+  "4455": {
+    "nome": "Letícia",
+    "idade": 38,
+    "historico": "ansiedade generalizada",
+    "ultima_consulta": "04/2026 com Dra. Julia",
+    "uso_continuo": "Escitalopram 10mg",
+    "alergias": "Nenhuma"
+  },
+  "1010": {
+    "nome": "Gustavo",
+    "idade": 42,
+    "historico": "gastrite crônica",
+    "ultima_consulta": "03/2026 com Dr. Henrique",
+    "uso_continuo": "Omeprazol 20mg",
+    "alergias": "Ibuprofeno"
+  },
+  "2020": {
+    "nome": "Patrícia",
+    "idade": 59,
+    "historico": "osteoporose",
+    "ultima_consulta": "05/2026 com Dra. Ana",
+    "uso_continuo": "Alendronato 70mg",
+    "alergias": "Nenhuma"
+  },
+  "3030": {
+    "nome": "Thiago",
+    "idade": 35,
+    "historico": "esteatose hepática",
+    "ultima_consulta": "02/2026 com Dr. João",
+    "uso_continuo": "Nenhum",
+    "alergias": "Sulfa"
+  }
+}

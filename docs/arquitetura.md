@@ -1,36 +1,37 @@
 ```mermaid
 flowchart TD
-    %% 1. User Input
-    User((Patient)) -->|User Input| App[BluaDiagnostics Interface]
-    App -->|Message State| Router{Intent Routing}
+    %% 1. User Interaction
+    User((Paciente)) <-->|Chat| App["Interface Chainlit<br>(app/app.py)"]
 
-    %% 2. Intent Routing (Based on sprint1_eval_set.json & system_prompt.md)
-    Router -->|Admin / Out of Scope| Admin[Redirect to Administrative Support]
-    Router -->|Clinical Check-up| Orchestrator["LangGraph Orchestrator<br>(notebooks/teste.ipynb)"]
+    %% 2. LangGraph Entry
+    App <-->|MessagesState| Supervisor{"Supervisor / Router<br>(src/graph/workflow.py)"}
 
-    %% 3. LLM Call
-    SysPrompt["prompts/system_prompt.md<br>Persona & Rules"] -.->|System Message| Orchestrator
-    Orchestrator -->|LLM Call| LLM((Llama 3.1 Agent))
+    %% 3. Multi-Agent Routing (Llama 3.1)
+    Supervisor -->|Intenção: Clínica/Sintomas| AgenteTriagem["Especialista: Triagem<br>(Agente Llama 3.1)"]
+    Supervisor -->|Intenção: Agendar| AgenteAgendamento["Especialista: Agendamento<br>(Agente Llama 3.1)"]
 
-    %% 4. RAG Consultation
-    LLM <-->|Semantic Search| RAG[(RAG: Vector DB)]
-    RAG -.->|Ingests| KB_Docs[knowledge_base/]
-    KB_Docs -.-> KB1[protocolo_triagem_manchester_vital.md]
-    KB_Docs -.-> KB2[politica_careplus_telemedicina.md]
-    KB_Docs -.-> KB3[bula_simplificada_losartana.md]
-    KB_Docs -.-> KB4[cartilha_beneficiario_pos_operatorio.md]
-    KB_Docs -.-> KB5[diretriz_privacidade_lgpd_careplus.md]
+    %% 4. System Prompt & Guardrails
+    SysPrompt["src/agents/system_prompt.md<br>(Regras e Red Flags)"] -.->|Contexto Clínico| AgenteTriagem
 
-    %% 5. Tools Invocation
-    LLM <-->|Function Calling| ToolNode["Tool Node<br>(tools/tools_spec.py)"]
-    ToolNode -.-> T1[buscar_dados_wearable]
-    ToolNode -.-> T2[buscar_historico_paciente]
-
-    %% 6. Guardrails Validation
-    LLM --> Guardrails{"Guardrails Validation<br>(HITL & Red Flags)"}
-    Guardrails -->|Red Flag / Risk Detected| Escalate["Emergency Human Escalation<br>Care Plus Medical Team"]
+    %% 5. Tools - Agente de Triagem
+    AgenteTriagem <-->|Function Calling| ToolsTriagem{"Tools de Triagem<br>(src/tools/tools_spec.py)"}
     
-    %% 7. Contextualized Output
-    Guardrails -->|Safe & Valid| Output[Contextualized Output]
-    Output -->|Return Message| App
+    ToolsTriagem <-->|buscar_diretrizes_careplus| RAG[(ChromaDB Vector Store<br>src/rag/chroma_setup.py)]
+    ToolsTriagem <-->|buscar_historico_paciente| MockDB[(data/pacientes_mock.json)]
+    ToolsTriagem <-->|buscar_dados_wearable| Wearable((Apple Health / Google Fit))
+
+    %% Ingestão RAG (Background)
+    KB_Docs[Docs: knowledge_base/*.md] -.->|Embeddings| RAG
+
+    %% 6. Tools - Agente de Agendamento
+    AgenteAgendamento <-->|Function Calling| ToolsAgendamento{"Tools de Agendamento<br>(src/tools/tools_spec.py)"}
+    ToolsAgendamento <-->|agendar_teleconsulta| Agenda((Sistema Care Plus))
+
+    %% 7. Resposta e Escalada
+    AgenteTriagem -->|Red Flag Detectada| Escalada["Escalada Humana<br>Equipe Médica Care Plus"]
+    AgenteTriagem -->|Resposta Segura| Output[Resposta Contextualizada]
+    AgenteAgendamento -->|Confirmação de Consulta| Output
+    
+    Escalada --> Output
+    Output -->|Retorno ao Paciente| App
 ```

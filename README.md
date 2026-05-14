@@ -1,4 +1,4 @@
-# BluaDiagnostics - Care Plus Sprint 1
+# BluaDiagnostics - Care Plus Sprint 3 & 4
 
 **Plataforma Inteligente de Cuidado Proativo** - Transformando o app Blua através de IA conversacional, check-ups digitais e orquestração segura de saúde.
 
@@ -24,7 +24,7 @@ A solução integra modelos de linguagem (LLMs) seguros em ambiente clínico par
 
 ---
 
-## Decisões Arquiteturais Sprint 1
+## Decisões Arquiteturais Sprint 3
 
 ### 1. Persona Atendida
 
@@ -88,7 +88,7 @@ A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a I
 ---
 
 ### `agendar_teleconsulta`
-(sprint 2)
+(sprint 4)
 - **Descrição:** Aciona o fluxo de agendamento ou entrada em fila de urgência com base no nível de prioridade da triagem.
 - **Parâmetros:**
   - `id_paciente` (string)
@@ -96,6 +96,10 @@ A PoC inclui os seguintes contratos de ferramentas (Tools) disponíveis para a I
   - `sintoma_principal` (string)
 
 ---
+
+## RAG 
+vamos transfomar o RAG em uma tool. 
+Para essa implementação, escolhi ChromaDB (fácil de rodar localmente sem subir containers) e HuggingFaceEmbeddings (modelo leve e gratuito, ótimo para testes).
 
 ## Evals
 
