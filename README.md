@@ -215,8 +215,7 @@ bluadiagnostics/
 ### 1. Clone o Repositório e Configure o Ambiente
 
 ```bash
-git clone [https://github.com/sua-org/sprint4-mindguard.git](https://github.com/sua-org/sprint4-mindguard.git)
-cd bluadiagnostics
+git clone https://github.com/[SuaOrg]}/BluaDiagnostics-Sprint4
 
 # Crie e ative o ambiente virtual
 python -m venv venv
