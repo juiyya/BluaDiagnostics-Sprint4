@@ -3,9 +3,9 @@
 https://github.com/juiyya/Care-Plus-HealthSync-DiagnsticoInteligente---Sprint-1
 
 
-Julia - RM 568438
-Bryan - RM 568081
+Julia - RM568438
+Bryan - RM568081
 Guilherme - RM566746
-Roberto - RM 567348
-Daniel - RM 567894
+Roberto - RM567348
+Daniel - RM567894
 Jessica - RM568024

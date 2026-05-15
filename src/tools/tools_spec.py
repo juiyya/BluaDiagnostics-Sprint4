@@ -8,7 +8,6 @@ retriever = obter_retriever()
 
 #mock
 def carregar_banco_pacientes():
-    # Caminho partindo da raiz do projeto
     filepath = "./data/pacientes_mock.json"
     try:
         with open(filepath, "r", encoding="utf-8") as f:

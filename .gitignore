@@ -4,3 +4,4 @@ __pycache__/
 docs/Sprint1.txt
 docs/sprint2.txt
 docs/TAREFAS.txt
+data/chroma_db

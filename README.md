@@ -234,6 +234,10 @@ Em um terminal separado, certifique-se de que o Llama 3.1 está rodando:
 ```bash
 ollama run llama3.1
 ```
+```bash
+ollama pull nomic-embed-text
+```
+
 ### 3. Popule o Vector Store (ChromaDB)
 
 Antes de rodar a aplicação, você precisa carregar os documentos da pasta knowledge_base para dentro do banco vetorial:

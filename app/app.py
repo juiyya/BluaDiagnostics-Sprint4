@@ -3,7 +3,6 @@ import streamlit as st
 from pathlib import Path
 from langchain_core.messages import HumanMessage, AIMessage
 
-# Ajuste de path para o Python encontrar a pasta 'src'
 BASE_DIR = Path(__file__).parent.parent
 sys.path.append(str(BASE_DIR))
 
@@ -11,7 +10,6 @@ from src.graph.workflow import app
 
 st.set_page_config(page_title="Assistente Care Plus", page_icon="🏥", layout="centered")
 
-# CSS mínimo pra não quebrar as cores nativas
 st.markdown("""
     <style>
     .stChatMessage { border-radius: 15px; margin-bottom: 10px; }
